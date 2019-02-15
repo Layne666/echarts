@@ -1,48 +1,79 @@
 $(function () {
-    var chart1_data = [10, 52, 200, 334, 390, 330, 220];
-    var chart1_xAxis_data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    chart1(chart1_data,chart1_xAxis_data);
+    var chart = document.getElementById('chart');
+    $("#ajslstjfx").addClass('tjfx_selected');
+    $("#msg").css("display","none");
+    var chart1_data = [60,40,70];//70表示Y轴显示的最大值
+    var chart1_xAxis_data = ['调解组织', '仲裁机构'];
+    chart1(chart,chart1_data,chart1_xAxis_data);
 
     $("#charts").change(function () {
         $("#subtitle").css("display","none");
+        $('#chart').css('width','600px');
         //echarts.init(document.getElementById('echarts')).dispose();//销毁前一个实例
         echarts.init(document.getElementById('chart')).dispose();
         switch ($(this).val()) {
             case '3':
-                chart3();
-                break;
-            case '2':
                 chart2();
                 break;
+            case '2':
+                $('#chart').css('width','1000px');
+                chart1(chart,[10,20,5,10,30,15,5,5],['国有企业','集体企业','港澳台企业','外商投资企业','私营企业','股份制企业','个体工商户','其他']);
+                break;
             default:
-                $("#subtitle").css("display","block");
-                chart1(chart1_data,chart1_xAxis_data);
+                chart1(chart,[60,40,70],['调解组织', '仲裁机构']);
         }
     });
 
-    $("#day").click(function (e) { 
+    $("#ajslstjfx").click(function (e) {
+        echarts.init(document.getElementById('chart2')).dispose();
+        $(this).addClass('tjfx_selected').siblings().removeClass('tjfx_selected');
+        $("#select").css("display","block");
+        $("#msg,#container span").css("display","none");
+        $('#chart').css('width','600px');
         echarts.init(document.getElementById('chart')).dispose();
-        chart1_data = [200,20,90,140,88,78,112];//动态数据
-        chart1_xAxis_data = ['1日','2日','3日','4日','5日','6日','7日'];//动态数据
-        chart1(chart1_data,chart1_xAxis_data);
+        switch ($("#charts").val()) {
+            case '3':
+                chart2();
+                break;
+            case '2':
+                $('#chart').css('width','1000px');
+                chart1(chart,[10,20,5,10,30,15,5,5],['国有企业','集体企业','港澳台企业','外商投资企业','私营企业','股份制企业','个体工商户','其他']);
+                break;
+            default:
+                chart1(chart,[60,40,70],['调解组织', '仲裁机构']);
+        }
     });
-    $("#month").click(function (e) { 
+    $("#ldzrstjfx").click(function (e) { 
+        echarts.init(document.getElementById('chart2')).dispose();
+        $(this).addClass('tjfx_selected').siblings().removeClass('tjfx_selected');
+        $("#select,#container span").css("display","none");
+        $("#msg").css("display","block");
+        $('#chart').css('width','600px');
         echarts.init(document.getElementById('chart')).dispose();
-        chart1_data = [20,120,190,300,188,178,12];
-        chart1_xAxis_data = ['6月','7月','8月','9月','10月','11月','12月'];
-        chart1(chart1_data,chart1_xAxis_data);
+        chart1_data = [20,10,5,15,25];
+        chart1_xAxis_data = ['调解组织','仲裁机构','本市','外省市'];
+        chart1(chart,chart1_data,chart1_xAxis_data);
     });
-    $("#year").click(function (e) { 
+    $("#ajjastjfx").click(function (e) { 
+        $(this).addClass('tjfx_selected').siblings().removeClass('tjfx_selected');
+        $("#select").css("display","none");
+        $("#msg").css("display","none");
+        $('#container span').css("display","inline-block");
+        $('#chart').css('width','600px');
         echarts.init(document.getElementById('chart')).dispose();
-        chart1_data = [300,220,190,40,28,278,212];
-        chart1_xAxis_data = ['2012','2013','2014','2015','2016','2017','2018'];
-        chart1(chart1_data,chart1_xAxis_data);
+        chart1_data = [30,25,35];
+        chart1_xAxis_data = ['调解组织','仲裁机构'];
+        chart1(chart,chart1_data,chart1_xAxis_data);
+        var chart2 = document.getElementById('chart2');
+        var chart2_data = [30,20,5,10,5];
+        var chart2_xAxis_data = ['调解组织','仲裁机构','撤诉','裁决','其他'];
+        chart1(chart2,chart2_data,chart2_xAxis_data);
     });
 });
 
-function chart1(chart1_data,chart1_xAxis_data) {
+function chart1(chart,chart1_data,chart1_xAxis_data) {
     // 基于准备好的dom，初始化echarts实例
-    var myChart1 = echarts.init(document.getElementById('chart'));
+    var myChart1 = echarts.init(chart);
     var option1 = {
         color: ['#3398DB'],
         tooltip: {
@@ -98,7 +129,7 @@ function chart2() {
         legend: {
             orient: 'vertical',
             x: 'left',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+            data: ['制造业', '建筑业', '交通运输、仓储和邮政业', '科学研究、技术服务和地址勘察类','批发和零售业', '住宿和餐饮业','租赁和商务服务类','房地产业','其他']
         },
         toolbox: {
             feature: {
@@ -133,95 +164,43 @@ function chart2() {
             },
             data: [{
                     value: 335,
-                    name: '直接访问'
+                    name: '制造业'
                 },
                 {
                     value: 310,
-                    name: '邮件营销'
+                    name: '建筑业'
                 },
                 {
                     value: 234,
-                    name: '联盟广告'
+                    name: '交通运输、仓储和邮政业'
+                },
+                {
+                    value: 335,
+                    name: '科学研究、技术服务和地址勘察类'
                 },
                 {
                     value: 135,
-                    name: '视频广告'
+                    name: '批发和零售业'
                 },
                 {
-                    value: 1548,
-                    name: '搜索引擎'
+                    value: 748,
+                    name: '住宿和餐饮业'
+                },
+                {
+                    value: 535,
+                    name: '租赁和商务服务类'
+                },
+                {
+                    value: 835,
+                    name: '房地产业'
+                },
+                {
+                    value: 235,
+                    name: '其他'
                 }
             ]
         }]
     };
     // 使用刚指定的配置项和数据显示图表。
     myChart2.setOption(option2);
-}
-
-function chart3() {
-    // 基于准备好的dom，初始化echarts实例
-    var myChart3 = echarts.init(document.getElementById('chart'));
-    var option3 = {
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {
-                    name:'折线图',
-                    pixelRatio:2
-                }
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-                name: '邮件营销',
-                type: 'line',
-                stack: '总量',
-                data: [120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name: '联盟广告',
-                type: 'line',
-                stack: '总量',
-                data: [220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name: '视频广告',
-                type: 'line',
-                stack: '总量',
-                data: [150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name: '直接访问',
-                type: 'line',
-                stack: '总量',
-                data: [320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name: '搜索引擎',
-                type: 'line',
-                stack: '总量',
-                data: [820, 932, 901, 934, 1290, 1330, 1320]
-            }
-        ]
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    myChart3.setOption(option3);
 }

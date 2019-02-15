@@ -13,23 +13,97 @@
 
 <body>
     <div id="main">
-        <div id="title">
-            <select name="charts" id="charts">
-                <option value="1">柱状图</option>
-                <option value="2">饼状图</option>
-                <option value="3">折线图</option>
-            </select>
+        <div>
+            <div id="title">
+                <span id="ajslstjfx">案件受理数统计分析</span>|
+                <span id="ldzrstjfx">劳动者人数统计分析</span>|
+                <span id="ajjastjfx">案件结案数统计分析</span>
+            </div>
+            <div id="select">
+                <select name="charts" id="charts">
+                    <option value="1">按承办机构分</option>
+                    <option value="2">按企业性质分</option>
+                    <option value="3">按行业类别分</option>
+                </select>
+                <div>案件受理数（单位：件）：100</div>
+            </div>
+            <div id="msg">劳动者人数=调解机构+仲裁机构=本市+外省市</div>
         </div>
-        <div id="subtitle">
-            点击换坐标参数—>
-            <span id="day">X轴:日</span>|
-            <span id="month">X轴:月</span>|
-            <span id="year">X轴:年</span>
-        </div>
+        <br>
     </div>
-    <br>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="chart" style="width: 600px;height:400px;"></div>
+    <div id="container">
+        <div>
+            <span>按承办机构统计</span>
+            <span>按结案方式统计</span>
+        </div>
+        <div id="chart"></div>
+        <div id="chart2"></div>
+    </div>
 </body>
+<script type="text/javascript">        
+    //初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chartmain'));
+    var base = + new Date(2017,3,8);
+    var oneDay = 24*3600*1000;
+    var date = [];
+    var data = [Math.random()*150];
+    var now = new Date(base);
+    var day = 30;
+    function addData(shift){
+        now = [now.getFullYear(),now.getMonth()+1,now.getDate()].join('/');        
+        date.push(now);        
+        data.push((Math.random()-0.5)*10+data[data.length-1]);
+        if (shift) {
+            console.log(data);
+            date.shift();
+            data.shift();
+        }
+        now = new Date(+new Date(now)+oneDay);        
+    }
 
+    for (var i = 0; i < day; i++) {
+        addData();
+    }
+    //设置图标配置项
+    myChart.setOption({
+        title:{
+            text:'ECharts 30天内数据实时更新'
+        },
+        xAxis:{
+            type:"category",
+            boundaryGap:false,
+            data:date
+        },
+        yAxis:{
+            boundaryGap:[0,'100%'],
+            type:'value'
+        },
+        series:[{
+            name:'成交',
+            type:'line',
+            smooth:true, //数据光滑过度
+            symbol:'none', //下一个数据点
+            stack:'a',
+            areaStyle:{
+                normal:{
+                    color:'red'
+                }
+            },
+            data:data
+        }]
+    })
+    setInterval(function(){
+        addData(true);
+        myChart.setOption({
+            xAxis:{
+                data:date
+            },
+            series:[{
+                name:'成交',
+                data:data
+            }]
+        });
+    },1000)
+</script>
 </html>

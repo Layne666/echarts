@@ -1,29 +1,65 @@
 @charset "utf-8";
 
 #main {
-    width: 500px;
-    overflow: hidden;
-    margin-top: 30px;
+    width: 600px;
+    margin:20px 0 0 100px;
+    font-family: 'Microsoft YaHei';
 }
-#title select {
+#title {
+    position: relative;
+    height: 28px;
+    margin-left: 20px;
+	margin-bottom:10px;
+}
+#title span {
+    margin:0 10px;
+}
+#title span:hover {
+    color: dodgerblue;
+    cursor: pointer;
+}
+#select{
+    width: 600px;
+    overflow: hidden;
+}
+#select select {
     position: relative;
     float: left;
     top:0px;
     left: 20px;
-    width: 80px;
+    width: 150px;
     height: 28px;
 }
-#subtitle {
+#select div {
     position: relative;
     float: right;
-    top:0px;
-    right: 10px;
+    right: 20px;
+    color: dodgerblue;
     height: 28px;
 }
-#subtitle span {
-    margin:0 10px;
+#msg {
+    text-align: right;
+    color:red;
 }
-#subtitle span:hover {
+#container {
+    width: 1300px;
+    overflow: hidden;
+    margin-left: 100px;
+}
+#container span {
+    display: none;
+    width: 600px;
+    height: 28px;
+    margin-left: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+#chart,#chart2 {
+    float: left;
+    width: 600px;
+    height:400px;
+    margin-left: 20px;
+}
+.tjfx_selected {
     color: dodgerblue;
-    cursor: pointer;
 }
